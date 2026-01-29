@@ -1,6 +1,9 @@
 package config
 
-import "os"
+import (
+	"os"
+	"strings"
+)
 
 type Config struct {
 	Port string
@@ -9,7 +12,10 @@ type Config struct {
 func Load() *Config {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = ":8080"
+		port = "8080"
+	}
+	if !strings.HasPrefix(port, ":") {
+		port = ":" + port
 	}
 	return &Config{
 		Port: port,
